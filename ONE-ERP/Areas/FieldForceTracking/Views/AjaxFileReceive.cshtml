@@ -1,0 +1,38 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+<form id="form" name="form" action="/AjaxFileReceive" enctype="multipart/form-data" method="post">
+    <input type="text" id="filesName" name="filesName" value="My Files" />
+    <div class="buttons">
+        <div class="upload-button">
+            <div class="label">Click me!</div>
+            <input id="files" name="files" type="file" size="1" multiple onchange="uploadFiles('files');" />
+        </div>
+    </div>
+</form>
+
+<script>
+    function uploadFiles(inputId) {
+        var formData = new FormData();
+        formData.append('files', $('#myfile')[0].files[0]); // myFile is the input type="file" control
+
+        var _url = '@Url.Action("AjaxFileReceive", "DashboardController")';
+
+        $.ajax({
+            url: _url,
+            type: 'POST',
+            data: formData,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            success: function (result) {
+            },
+            error: function (jqXHR) {
+            },
+            complete: function (jqXHR, status) {
+            }
+        });
+    }
+</script>

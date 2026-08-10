@@ -1,0 +1,231 @@
+﻿@{
+    ViewData["Title"] = "Ledger Opening Balance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title" style="color: black">Ledger Opening Balance</h5>
+        <hr>
+        <form id="fromGroup" method="post" data-parsley-validate="parsley">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <input type="hidden" id="openingBalanceId" name="openingBalanceId" value=0>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label for="companyId" class="col-sm-4 col-form-label">Company Name <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="companyId" id="companyId" class="form-control" data-parsley-required="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="sbuId" class="col-sm-4 col-form-label">Branch Name <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="sbuId" id="sbuId" class="form-control" data-parsley-required="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ledgerId" class="col-sm-4 col-form-label">Ledger Name <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="ledgerId" id="ledgerId" class="form-control" data-parsley-required="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="partyId" class="col-sm-4 col-form-label">Party Name <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="partyId" id="partyId" class="form-control" data-parsley-required="true">
+                            </select>
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label for="balanceUpTo" class="col-sm-4 col-form-label">Balance Upto Date <span style="color:red;">*</span></label>
+                        <div class="col-sm-8 input-group">
+                            <input class="form-control" id="balanceUpTo" name="balanceUpTo" data-parsley-required="true">                            
+                            <div class="input-group-prepend">
+                                <i class="fas fa-calendar-alt form-control input-group-sm input-group-text bg-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="aliasName" class="col-sm-4 col-form-label">Amount <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control text-right" id="aliasName" name="aliasName" data-parsley-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="transactionModeId" class="col-sm-4 col-form-label">Transaction Mode <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="transactionModeId" id="transactionModeId" class="form-control" data-parsley-required="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="isActive" class="col-sm-4 col-form-label">Status</label>
+                        <div class="col-sm-8">
+                            <select name="isActive" id="isActive" class="form-control">
+                                <option value="">Select</option>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                    </div>                    
+                    <br />
+                    <div class="form-group row">
+                        <label for="groupName" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <button type="button" id="btnSave" onclick="SaveAccountGroup()" class="btn btn-success btn-sm" style="width:80px;">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div class="row clearfix">
+    <div class="col-12">
+        <div class="card mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Ledger Opening Balance List</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <table class="table table-striped table-bordered" id="groupTable">
+                    <thead>
+                        <tr>
+                            <th>Sl#</th>
+                            <th>Ledger Name</th>
+                            <th>Ledger Code</th>
+                            <th>Party Name</th>
+                            <th>Amount</th>
+                            <th>Balance UpTo</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('#groupTable').DataTable();
+            $("#balanceUpTo").datepicker({ dateFormat: "dd-M-yy", showAnim: "scale", changeMonth: true, changeYear: true, yearRange: "2010:2030" }).datepicker("setDate", new Date());
+            Common.Ajax('GET', '/api/Company/GetAllCompany/', [], 'json', GetAllCompany);
+            Common.Ajax('GET', '/api/Sbu/getSbu/0/0', [], 'json', GetSpecialBranchUnit, false);
+            Common.Ajax('GET', '/api/Ledgers/GetLedgersList/', [], 'json', GetLedgersList);           
+            Common.Ajax('GET', '/api/Party/GetPartyList/', [], 'json', GetPartyList);
+            Common.Ajax('GET', '/api/TransactionMode/GetTransactionMode/', [], 'json', GetTransactionMode);            
+            Common.Ajax('GET', '/api/OpeningBalance/GetOpeningBalanceList/', [], 'json', GetOpeningBalanceList);
+        });
+
+        function GetAllCompany(response) {
+            $('#companyId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.companyId + '">' + item.companyName + '</option>';
+            });
+            $('#companyId').append(options);
+        }
+
+        function GetSpecialBranchUnit(response) {
+            $('#sbuId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response.data, function (i, item) {
+                options += '<option value="' + item.sbuId + '">' + item.sbuName + '</option>';
+            });
+            $('#sbuId').append(options);
+        }
+
+        function GetLedgersList(response) {
+            $('#ledgerId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.ledgerId + '">' + item.accountName + '</option>';
+            });
+            $('#ledgerId').append(options);
+        }
+
+        function GetPartyList(response) {
+            $('#partyId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.partyId + '">' + item.partyName + '</option>';
+            });
+            $('#partyId').append(options);
+        }
+
+        function GetTransactionMode(response) {
+            $('#transactionModeId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.transactionModeId + '">' + item.modeName + '</option>';
+            });
+            $('#transactionModeId').append(options);
+        }
+
+        
+
+        function GetOpeningBalanceList(response) {
+            if (response == null) {
+                return false;
+            }
+            $("#groupTable").DataTable().destroy();
+            var table = $("#groupTable tbody");
+            table.empty();
+            var index = 0;
+            for (var i = 0; i < response.length; i++) {
+                index = i + 1;
+                table.append('<tr><td>' + index + '</td>'
+                    + '<td>' + response[i].accountName + '</td>'
+                    + '<td>' + response[i].accountCode + '</td>'
+                    + '<td>' + response[i].partyName + '</td>'
+                    + '<td>' + response[i].amount + '</td>'
+                    + '<td>' + response[i].balanceUpTo + '</td>'    
+                    + '<td><a class="btn btn-success" title="Edit" onclick="Edit(' + index + ')" ><i class="fa fa-edit"></i></a>&nbsp;<a href="javascript:void(0)"style="background-color:red;border-color:red" data-toggle="tooltip" title="Delete" class="btn btn-danger btn-xs" onclick="Delete(' + index + ')"><i class="fa fa-trash"></i></a></td>'
+                    + '</tr >');
+            }
+            $("#groupTable").DataTable({
+                stateSave: false,
+                dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-3'B><'col-sm-12 col-md-7'f>>" +
+                    "<'row'<'col-sm-12't>>" +
+                    "<'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'pr>>",
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fa fa-file-excel"></i> Excel',
+                        titleAttr: 'Excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        },
+                        title: "Ledger Opening Balance",
+                        class: 'btn btn-info'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        text: '<i class="fa fa-file-excel"></i> CSV',
+                        titleAttr: 'CSV',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        },
+                        title: "Ledger Opening Balance",
+                    }
+                ]
+            });
+        }
+
+
+    </script>
+}

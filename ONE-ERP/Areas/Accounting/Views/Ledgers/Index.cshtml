@@ -1,0 +1,256 @@
+﻿@{
+    ViewData["Title"] = "Ledgers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title" style="color: black">Ledger</h5>
+        <hr>
+        <form id="fromGroup" method="post" data-parsley-validate="parsley">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <input type="hidden" id="ledgerId" name="ledgerId" value=0>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label for="companyId" class="col-sm-4 col-form-label">Company Name <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="companyId" id="companyId" class="form-control" data-parsley-required="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="sbuId" class="col-sm-4 col-form-label">Branch Name <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="sbuId" id="sbuId" class="form-control" data-parsley-required="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="accountNatureId" class="col-sm-4 col-form-label">Account Nature <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="accountNatureId" id="accountNatureId" class="form-control" data-parsley-required="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="accountGroupId" class="col-sm-4 col-form-label">Account Group <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="accountGroupId" id="accountGroupId" class="form-control" data-parsley-required="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ledgerTypeId" class="col-sm-4 col-form-label">Ledger Type <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="ledgerTypeId" id="ledgerTypeId" class="form-control" data-parsley-required="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="currencyId" class="col-sm-4 col-form-label">Currency</label>
+                        <div class="col-sm-8">
+                            <select name="currencyId" id="currencyId" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label for="accountName" class="col-sm-4 col-form-label">Ledger Name <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="accountName" name="accountName" data-parsley-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="aliasName" class="col-sm-4 col-form-label">Short Name <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="aliasName" name="aliasName" data-parsley-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="accountCode" class="col-sm-4 col-form-label">Ledger Code <span style="color:red;">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="accountCode" name="accountCode" data-parsley-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="isActive" class="col-sm-4 col-form-label">Status</label>
+                        <div class="col-sm-8">
+                            <select name="isActive" id="isActive" class="form-control">
+                                <option value="">Select</option>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="divHaveSubLedger">
+                        <label for="haveSubLedger" class="col-sm-4 col-form-label">Have Sub-Ledger ?</label>
+                        <div class="col-sm-1">
+                            <input type="checkbox" class="form-control" id="haveSubLedger" value="1" name="haveSubLedger">
+                        </div>
+                        <div class="col-sm-7"></div>
+                    </div>
+                    <br />
+                    <div class="form-group row">
+                        <label for="groupName" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-8">
+                            <button type="button" id="btnSave" onclick="SaveAccountGroup()" class="btn btn-success btn-sm" style="width:80px;">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div class="row clearfix">
+    <div class="col-12">
+        <div class="card mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Ledger List</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <table class="table table-striped table-bordered" id="groupTable">
+                    <thead>
+                        <tr>
+                            <th>Sl#</th>
+                            <th>Account Nature</th>
+                            <th>Account Group</th>
+                            <th>Ledger Name</th>
+                            <th>Ledger Code</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('#groupTable').DataTable();
+            Common.Ajax('GET', '/api/Company/GetAllCompany/', [], 'json', GetAllCompany);
+            Common.Ajax('GET', '/api/Sbu/getSbu/0/0', [], 'json', GetSpecialBranchUnit, false);
+            Common.Ajax('GET', '/api/GroupNature/GetGroupNature/', [], 'json', GetGroupNature);
+            Common.Ajax('GET', '/api/AccountGroup/GetAccountGroupList/', [], 'json', GetAccountGroupList);
+            Common.Ajax('GET', '/api/LedgerType/GetLedgerType/', [], 'json', GetLedgerType);
+            Common.Ajax('GET', '/api/Currency/GetCurrency/', [], 'json', GetCurrency);
+            Common.Ajax('GET', '/api/Ledgers/GetLedgersList/', [], 'json', GetLedgersList);
+
+        });
+
+        function GetAllCompany(response) {
+            $('#companyId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.companyId + '">' + item.companyName + '</option>';
+            });
+            $('#companyId').append(options);
+        }
+
+        function GetSpecialBranchUnit(response) {
+            $('#sbuId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response.data, function (i, item) {
+                options += '<option value="' + item.sbuId + '">' + item.sbuName + '</option>';
+            });
+            $('#sbuId').append(options);
+        }
+
+        function GetGroupNature(response) {
+            $('#accountNatureId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.groupNatureId + '">' + item.natureName + '</option>';
+            });
+            $('#accountNatureId').append(options);
+        }
+
+        function GetAccountGroupList(response) {
+            $('#accountGroupId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.accountGroupId + '">' + item.groupName + '</option>';
+            });
+            $('#accountGroupId').append(options);
+        }
+
+        function GetLedgerType(response) {
+            $('#ledgerTypeId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.ledgerTypeId + '">' + item.ledgerTypeName + '</option>';
+            });
+            $('#ledgerTypeId').append(options);
+        }
+
+        function GetCurrency(response) {
+            $('#currencyId').empty();
+            var options = '<option value="0">Select</option>';
+            $.each(response, function (i, item) {
+                options += '<option value="' + item.currencyId + '">' + item.currencyName + '</option>';
+            });
+            $('#currencyId').append(options);
+        }
+
+        function GetLedgersList(response) {
+            if (response == null) {
+                return false;
+            }
+            $("#groupTable").DataTable().destroy();
+            var table = $("#groupTable tbody");
+            table.empty();
+            var index = 0;
+            for (var i = 0; i < response.length; i++) {
+                index = i + 1;
+                table.append('<tr><td>' + index + '</td>'
+                    + '<td>' + response[i].natureName + '</td>'
+                    + '<td>' + response[i].groupName + '</td>'
+                    + '<td>' + response[i].accountName + '</td>'
+                    + '<td>' + response[i].accountCode + '</td>'
+                    + '<td>' + response[i].status + '</td>'
+                    + '<td><a class="btn btn-success" title="Edit" onclick="Edit(' + index + ')" ><i class="fa fa-edit"></i></a>&nbsp;<a href="javascript:void(0)"style="background-color:red;border-color:red" data-toggle="tooltip" title="Delete" class="btn btn-danger btn-xs" onclick="Delete(' + index + ')"><i class="fa fa-trash"></i></a></td>'
+                    + '</tr >');
+            }
+            $("#groupTable").DataTable({
+                stateSave: false,
+                dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-3'B><'col-sm-12 col-md-7'f>>" +
+                    "<'row'<'col-sm-12't>>" +
+                    "<'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'pr>>",
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fa fa-file-excel"></i> Excel',
+                        titleAttr: 'Excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        },
+                        title: "Ledger",
+                        class: 'btn btn-info'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        text: '<i class="fa fa-file-excel"></i> CSV',
+                        titleAttr: 'CSV',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        },
+                        title: "Ledger",
+                    }
+                ]
+            });
+        }
+
+
+    </script>
+}
+
+

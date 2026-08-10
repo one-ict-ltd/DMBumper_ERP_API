@@ -1,0 +1,115 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http.Authentication
+@model LogInViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+
+    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color:#e4e5e6" class="fa-align-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <img src="~/Upload/logo/oneict.png" style="margin:0px 0px 10px 0px;" height="100" width="90" />
+                                        <h5 style="color:black;font-weight:700;">Welcome to ONE-ERP</h5>
+                                        <p class="text-muted">Sign In to your account</p>
+                                    </div>
+
+                                    <form class="user" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                                        <div asp-validation-summary="All" class="text-danger"></div>
+                                        <div class="form-group input-group">
+                                            <div class="input-group-prepend">
+                                                <i class="fas fa-user-circle form-control input-group-sm input-group-text bg-white"></i>
+                                            </div>
+                                            <input type="text" class="form-control" id="exampleInputEmail" name="Name" aria-describedby="emailHelp" placeholder="Username">
+                                        </div>
+                                        <div class="form-group input-group">
+                                            <div class="input-group-prepend">
+                                                <i class="fas fa-eye form-control input-group-sm input-group-text bg-white"></i>
+                                            </div>
+                                            <input type="password" class="form-control" name="Password" id="exampleInputPassword" placeholder="Password">
+                                        </div>
+                                        @*<div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" name="RememberMe" onclick="handleClick(this)" class="custom-control-input" id="customCheck">
+                                                    <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                                </div>
+                                            </div>*@
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button type="submit" class="btn btn-info btn-block text-center" style="width:100px;">
+                                                    Login
+                                                </button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group fa-pull-right">
+                                                    <a class="collapse-item text-right" asp-area="Auth" asp-controller="Account" asp-action="Register">Register Now!</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<div class="form-group fa-pull-right">
+                                                <a class="collapse-item text-right" asp-area="Auth" asp-controller="Account" asp-action="Register">Register Now!</a>
+                                            </div>*@
+                                    </form>
+
+                                </div>
+                                @*<footer class="sticky-footer bg-white">
+                                        <div class="container my-auto">
+                                            <div class="copyright text-center my-auto">
+                                                <span><b><a href="http://one-ict.com/" target="_blank" style="text-decoration:none;color:#5c97be"> One ICT Ltd </a>&copy; @DateTime.Now.Year</b></span>
+                                            </div>
+                                        </div>
+
+
+                                    </footer>*@
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        function handleClick(cb) {
+            if (cb.checked == true) {
+                $('#customCheck').val(true);
+            } else {
+                $('#customCheck').val(false);
+            }
+        }
+
+
+
+    </script>
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/js/sb-admin-2.min.js"></script>
+
+</body>
+</html>

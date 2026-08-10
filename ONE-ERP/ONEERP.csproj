@@ -1,0 +1,196 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>e880f1cd-53a5-4058-9374-0ec4ddef6dfc</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Production\Models\Data\**" />
+    <Compile Remove="ERPServices\Hrm\MasterData\**" />
+    <Compile Remove="wwwroot\.config\**" />
+    <Content Remove="Areas\Production\Models\Data\**" />
+    <Content Remove="ERPServices\Hrm\MasterData\**" />
+    <Content Remove="wwwroot\.config\**" />
+    <EmbeddedResource Remove="Areas\Production\Models\Data\**" />
+    <EmbeddedResource Remove="ERPServices\Hrm\MasterData\**" />
+    <EmbeddedResource Remove="wwwroot\.config\**" />
+    <None Remove="Areas\Production\Models\Data\**" />
+    <None Remove="ERPServices\Hrm\MasterData\**" />
+    <None Remove="wwwroot\.config\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Hrm\Models\EmployeeViewModelNew.cs" />
+    <Compile Remove="Areas\Hrm\Models\EmployeeViewNModel.cs" />
+    <Compile Remove="Areas\Sales\Models\SalesInvoiceApproveListViewModel.cs" />
+    <Compile Remove="Data\Entity\HrmMaster\HrmEmploymentStatus.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmLeaveDay.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmResult.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmSubject.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainer.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainingAllocation.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainingCategory.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainingDeliverables.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainingExam.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainingInfo.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainingInfoDetails.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainingInfoNew.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainingMiscallenous.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainingOffer.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTrainingResourcePerson.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTravellerInfo.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTravellingInfo.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTravelMaster.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTravelPurpose.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTravelRoute.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTravelStatusLog.cs" />
+    <Compile Remove="Data\Entity\HRM\HrmTravelVehicleType.cs" />
+    <Compile Remove="ERPServices\AuthService\Interfaces\ITokenAuthenticatorService.cs" />
+    <Compile Remove="ERPServices\AuthService\TokenAuthenticatorService.cs" />
+    <Compile Remove="Helpers\Authentication.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="libwkhtmltox.dll" />
+    <None Remove="libwkhtmltox.dylib" />
+    <None Remove="libwkhtmltox.so" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <!-- <PackageReference Include="Aspose.PDF" Version="20.8.0" /> -->
+    <!-- <PackageReference Include="Bytescout.PDFExtractor" Version="11.2.1.3929" /> -->
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <PackageReference Include="DotNetCore.NPOI" Version="1.2.3" />
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+    <PackageReference Include="Haukcode.DinkToPdf" Version="1.1.2" />
+    <!-- <PackageReference Include="HTMLToWordConverterClient" Version="1.0.0" /> -->
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <!-- <PackageReference Include="sautinsoft.pdffocus" Version="7.5.3.27" /> -->
+    <!-- <PackageReference Include="Spire.PDF" Version="6.8.5" /> -->
+    <PackageReference Include="System.Data.OleDb" Version="4.7.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="ZXing.Net" Version="0.16.5" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Areas\Dashboard\Models\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="wwwroot\CameraPhotos\" />
+    <Folder Include="wwwroot\EmpImages\" />
+    <Folder Include="wwwroot\HRManualAttachment\" />
+    <Folder Include="wwwroot\ItemImages\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\MicellaneousFiles\" />
+    <Folder Include="wwwroot\Logo\" />
+    <Folder Include="wwwroot\PrescriptionImages\" />
+    <Folder Include="wwwroot\pdf\" />
+    <Folder Include="wwwroot\RxUploadImage\NewFolder\" />
+    <Folder Include="wwwroot\Upload\CS\" />
+    <Folder Include="wwwroot\word\" />
+    <Folder Include="wwwroot\Shagotom_img\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="appsettings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Include="Areas\Accounting\Views\AccountGroup\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\CostCentre\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\Currency\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\FundSource\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\GroupNature\DtIndex.cshtml" />
+    <None Include="Areas\Accounting\Views\GroupNature\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\GroupNature\TestIndex.cshtml" />
+    <None Include="Areas\Accounting\Views\Ledgers\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\LedgerType\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\OpeningBalance\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\Party\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\Shared\_VoucherLayout.cshtml" />
+    <None Include="Areas\Accounting\Views\TransactionMode\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\VoucherStatus\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\VoucherType\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\Voucher\Index.cshtml" />
+    <None Include="Areas\Accounting\Views\Voucher\VoucherList.cshtml" />
+    <None Include="Areas\Accounting\Views\_ViewImports.cshtml" />
+    <None Include="Areas\Auth\Views\Account\Login.cshtml" />
+    <None Include="Areas\Auth\Views\Shared\_MasterLayout.cshtml" />
+    <None Include="Areas\Auth\Views\_ViewImports.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_CookieConsentPartial.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\CustomSelectOption\select2.min.js" />
+    <None Include="wwwroot\js\demo\chart-area-demo.js" />
+    <None Include="wwwroot\js\demo\chart-bar-demo.js" />
+    <None Include="wwwroot\js\demo\chart-pie-demo.js" />
+    <None Include="wwwroot\js\demo\datatables-demo.js" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\webcam-capture-picture\jquery-3.1.1.min.js" />
+    <None Include="wwwroot\webcam-capture-picture\shutter.ogg" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\build.sh" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\DOCS.md" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\flash\com\adobe\images\BitString.as" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\flash\com\adobe\images\JPGEncoder.as" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\flash\com\adobe\images\PNGEncoder.as" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\flash\mx\utils\Base64Encoder.as" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\flash\Webcam.as" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\flash\Webcam.fla" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\LICENSE" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\README.md" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\webcam.js" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\webcam.min.js" />
+    <None Include="wwwroot\webcam-capture-picture\webcamjs\webcam.swf" />
+  </ItemGroup>
+
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>

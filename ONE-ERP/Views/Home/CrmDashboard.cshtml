@@ -1,0 +1,409 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "CrmDashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/js/echarts.min.js"></script>
+
+<div class="card" style="height: 930px;">
+    <div class="card-body">
+        <div class="row">
+            <h5 class="card-title" style="color: black">Dashboard</h5>
+
+        </div>
+        <hr />
+        <div class="row" style="margin-top: -35px;">
+            <div class="col-sm-12 card-body">
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <div class="card bg-success text-white border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold  text-uppercase mb-xl-2">Today Total Invoice</div>
+                                        <div class="h5 mb-0 font-weight-bold ">5</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-file-invoice-dollar fa-3x text-black-500"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 py-0">
+                        <div class="card bg-primary text-white border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold  text-uppercase mb-1">Today Payment</div>
+                                        <div class="h5 mb-0 font-weight-bold ">120000.00</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user fa-2x text-black-300"></i>
+                                        <i class="fas fa-clinic-medical fa-3x text-black-500"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-4">
+                        <div class="card bg-danger text-white border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold  text-uppercase mb-1">Today Received</div>
+                                        <div class="h5 mb-0 font-weight-bold ">200000.00</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user fa-2x text-black-300"></i>
+                                        <i class="fas fa-user-md fa-3x text-black-500"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="card bg-success text-white border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold  text-uppercase mb-1">Today Sale</div>
+                                        <div class="h5 mb-0 font-weight-bold ">250000.00</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-dollar-sign fa-3x text-black-500"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+
+            </div>
+
+
+
+        </div>
+        <hr />
+        <div class="row">
+
+          
+        </div>
+
+
+
+
+        
+    </div>
+    </div>
+</div>
+
+
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+<script type="text/javascript">
+
+    window.onload = function () {
+        $("#employeetable").dataTable();
+
+        barChartTotalSales();
+        $("#SubmitButtonList").click(function () {
+
+
+
+
+            Common.Ajax('GET', '/global/api/GetOutData/', [], 'json', ajaxGetEmployeeList, false);
+        });
+        $("#SubmitButtonListI").click(function () {
+
+
+
+
+            Common.Ajax('GET', '/global/api/GetLoginData/', [], 'json', ajaxGetEmployeeListI, false);
+        });
+        $("#SubmitButtonListL").click(function () {
+
+
+
+
+            Common.Ajax('GET', '/global/api/GetNotLocationData/', [], 'json', ajaxGetEmployeeListL, false);
+        });
+
+    }
+
+    function addCommas(x) {
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
+    }
+    function barChartTotalSales() {
+        var dpointi = [];
+        var dpointc = [];
+        $.ajax({
+            url: '@Url.Action("GetInvoiceCollection", "Home")',
+            type: "GET",
+            dataType: "json",
+            data: {
+
+            },
+            success: function (records) {
+               // console.log(records);
+                 dpointi = [];
+                $.each(records, function (id, value) {
+                    console.log(dpointi);
+                    //console.log(value);
+                    //y.push(value.totalInvoice);
+                    //z.push(value.totalCollection);
+                    //label.push(value.date);
+                    dpointi.push({ label: value.date, y: value.totalInvoice });
+                   dpointc.push({ label: value.date, y: value.totalCollection });
+                });
+                var chart = new CanvasJS.Chart("barChartTotalSales", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Invoice/Collection of Month"
+                    },
+                    axisY: {
+                        title: "Invoice/day",
+                        max: 120000,
+                        titleFontColor: "#4F81BC",
+                        lineColor: "#4F81BC",
+                        labelFontColor: "#4F81BC",
+                        tickColor: "#4F81BC"
+                    },
+                    axisY2: {
+                        title: "Collection/day",
+                        max: 120000,
+                        titleFontColor: "#C0504E",
+                        lineColor: "#C0504E",
+                        labelFontColor: "#C0504E",
+                        tickColor: "#C0504E"
+                    },
+                    toolTip: {
+                        shared: true
+                    },
+                    legend: {
+                        cursor: "pointer",
+                        itemclick: toggleDataSeries
+                    },
+                    data: [{
+                        type: "column",
+                        name: "Invoice",
+                        max: 120000,
+                        legendText: "Invoice",
+                        showInLegend: true,
+                        dataPoints: dpointi
+                        //dataPoints: [
+                        //    { label: "05", y: 266.21 },
+                        //    { label: "06", y: 302.25 },
+                        //    { label: "07", y: 157.20 },
+                        //    { label: "08", y: 148.77 },
+                        //    { label: "09", y: 101.50 },
+                        //    { label: "10", y: 97.8 }
+                        //]
+                    },
+                    {
+                        type: "column",
+                        name: "Collection",
+                        max: 120000,
+                        legendText: "Collection",
+                        axisYType: "secondary",
+                        showInLegend: true,
+                        dataPoints: dpointc
+                        //dataPoints: [
+                        //    { label: "Saudi", y: 10.46 },
+                        //    { label: "Venezuela", y: 2.27 },
+                        //    { label: "Iran", y: 3.99 },
+                        //    { label: "Iraq", y: 4.45 },
+                        //    { label: "Kuwait", y: 2.92 },
+                        //    { label: "UAE", y: 3.1 }
+                        //]
+                        }
+                    ]
+                });
+                chart.render();
+
+                function toggleDataSeries(e) {
+                    if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                        e.dataSeries.visible = false;
+                    }
+                    else {
+                        e.dataSeries.visible = true;
+                    }
+                    chart.render();
+                }
+            }
+        });
+       // console.log(dpointi);
+       // console.log(dpointc);
+
+
+
+    }
+    function ajaxGetEmployeeList(response) {
+        console.log(response);
+        $("#textid").html("Not Logged In Employee List-Total-" + response.length);
+        $("#employeetable").DataTable().destroy();
+        $("#employeetable tbody>tr").remove();
+        var dtTable = $("#employeetable");
+        var tableBody = dtTable.find('tbody');
+        if (response != null) {
+
+            var index = 1;
+            $.each(response, function (key, ite) {
+
+                var trHtml = '<tr id=' + index + '>' +
+                    '<td>' + index + '</td>' +
+                    '<td>' + ite?.EMP_ID + '-' + ite?.EMPLOYEE_NAME + '-' + ite?.Designation + '-' + ite?.MOBILE_NO+ '</td>' +
+                    //'<td>' + ite?.EMPLOYEE_NAME + '</td>' +
+                    //'<td>' + ite?.Designation + '</td>' +
+                    //'<td>' + ite?.MOBILE_NO + '</td>' +
+                    //'<td>' + ite?.POSTING_LOCATION + '</td>' +
+                    '<td>' + ite?.ZoneName + '-' + ite?.DepotName + '-' + ite?.RegionName + '-' + ite?.AreaName + '-' + ite?.TerritoryName + '</td>' +
+                    //'<td>' + ite?.DepotName + '</td>' +
+                    //'<td>' + ite?.RegionName + '</td>' +
+                    //'<td>' + ite?.AreaName + '</td>' +
+                    //'<td>' + ite?.TerritoryName + '</td>' +
+                    //'<td>' + ite?.Address + '</td>' +
+                    '<td>' + ite?.Date + '</td>' +
+
+                    '</tr>';
+                tableBody.append(trHtml);
+                index = index + 1;
+                $("#rowCount").val(index);
+            })
+        }
+        $("#employeetable").DataTable();
+
+    }
+    function ajaxGetEmployeeListI(response) {
+        console.log(response);
+        $("#textid").html("Logged In Employee List-Total-" + response.length);
+        $("#employeetable").DataTable().destroy();
+        $("#employeetable tbody>tr").remove();
+        var dtTable = $("#employeetable");
+        var tableBody = dtTable.find('tbody');
+        if (response != null) {
+
+            var index = 1;
+            $.each(response, function (key, ite) {
+
+                var trHtml = '<tr id=' + index + '>' +
+                    '<td>' + index + '</td>' +
+                    '<td>' + ite?.EMP_ID + '-' + ite?.EMPLOYEE_NAME + '-' + ite?.Designation + '-' + ite?.MOBILE_NO + '</td>' +
+                    //'<td>' + ite?.EMPLOYEE_NAME + '</td>' +
+                    //'<td>' + ite?.Designation + '</td>' +
+                    //'<td>' + ite?.MOBILE_NO + '</td>' +
+                    //'<td>' + ite?.POSTING_LOCATION + '</td>' +
+                    '<td>' + ite?.ZoneName + '-' + ite?.DepotName + '-' + ite?.RegionName + '-' + ite?.AreaName + '-' + ite?.TerritoryName + '</td>' +
+                    //'<td>' + ite?.DepotName + '</td>' +
+                    //'<td>' + ite?.RegionName + '</td>' +
+                    //'<td>' + ite?.AreaName + '</td>' +
+                    //'<td>' + ite?.TerritoryName + '</td>' +
+                    //'<td>' + ite?.Address + '</td>' +
+                    '<td>' + ite?.Date + '</td>' +
+
+                    '</tr>';
+                tableBody.append(trHtml);
+                index = index + 1;
+                $("#rowCount").val(index);
+            })
+        }
+        $("#employeetable").DataTable();
+
+    }
+    function ajaxGetEmployeeListL(response) {
+        console.log(response);
+        $("#textid").html("Location Not Found Employee List-Total-"+response.length);
+        $("#employeetable").DataTable().destroy();
+        $("#employeetable tbody>tr").remove();
+        var dtTable = $("#employeetable");
+        var tableBody = dtTable.find('tbody');
+        if (response != null) {
+
+            var index = 1;
+            $.each(response, function (key, ite) {
+
+                var trHtml = '<tr id=' + index + '>' +
+                    '<td>' + index + '</td>' +
+                    '<td>' + ite?.EMP_ID + '-' + ite?.EMPLOYEE_NAME + '-' + ite?.Designation + '-' + ite?.MOBILE_NO + '</td>' +
+                    //'<td>' + ite?.EMPLOYEE_NAME + '</td>' +
+                    //'<td>' + ite?.Designation + '</td>' +
+                    //'<td>' + ite?.MOBILE_NO + '</td>' +
+                    //'<td>' + ite?.POSTING_LOCATION + '</td>' +
+                    '<td>' + ite?.ZoneName + '-' + ite?.DepotName + '-' + ite?.RegionName + '-' + ite?.AreaName + '-' + ite?.TerritoryName + '</td>' +
+                    //'<td>' + ite?.DepotName + '</td>' +
+                    //'<td>' + ite?.RegionName + '</td>' +
+                    //'<td>' + ite?.AreaName + '</td>' +
+                    //'<td>' + ite?.TerritoryName + '</td>' +
+                    //'<td>' + ite?.Address + '</td>' +
+                    '<td>' + ite?.Date + '</td>' +
+
+                    '</tr>';
+                tableBody.append(trHtml);
+                index = index + 1;
+                $("#rowCount").val(index);
+            })
+        }
+        $("#employeetable").DataTable();
+
+    }
+
+</script>
+
+<style>
+    .dot {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        padding-top: 0px;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+
+    #features {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 50%;
+        overflow: auto;
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    #map canvas {
+        cursor: crosshair;
+    }
+
+    .mapboxgl-popup {
+        max-width: 400px;
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+</style>
+
+
+
