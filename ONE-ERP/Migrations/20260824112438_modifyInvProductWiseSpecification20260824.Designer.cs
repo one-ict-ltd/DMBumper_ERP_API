@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ONEERP.Data;
 
 namespace ONEERP.Migrations
 {
     [DbContext(typeof(ERPDbContext))]
-    partial class ERPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260824112438_modifyInvProductWiseSpecification20260824")]
+    partial class modifyInvProductWiseSpecification20260824
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -11729,9 +11731,11 @@ namespace ONEERP.Migrations
 
                     b.Property<string>("side");
 
-                    b.Property<string>("skuName");
+                    b.Property<string>("skuName")
+                        .HasMaxLength(250);
 
-                    b.Property<string>("skuNumber");
+                    b.Property<string>("skuNumber")
+                        .HasMaxLength(50);
 
                     b.Property<int?>("specWiseUomId");
 

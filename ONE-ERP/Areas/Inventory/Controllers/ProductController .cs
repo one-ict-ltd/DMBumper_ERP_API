@@ -58,42 +58,16 @@ namespace ONEERP.Areas.Inventory.Controllers
 
             }
 
-            if (model.productName == null || model.productTypeId == 0 || model.productCategoryId == 0 || model.productSubCategoryId == 0)
-            {
-                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Product has not created successfully.", false);
-
-                return new OkObjectResult(jwt);
-            }
-
-
-            var Productdata = await productService.getProduct();
-            string maxcode = "";
-            //if (model.productId == 0)
+            //if (model.productName == null || model.productTypeId == 0 || model.productCategoryId == 0 || model.productSubCategoryId == 0)
             //{
-            //    maxcode = Productdata.Where(x => x.isActive == true).OrderByDescending(x => x.productId).Select(x => x.productCode).FirstOrDefault();
-            //    if (maxcode == null)
-            //    {
-            //        maxcode = "0000";
-            //    }
-            //    else
-            //    {
-            //        maxcode = maxcode.Substring(3, maxcode.Length - 3);
-            //    }
-            //    var product = await productService.getProduct((int)model.productId);
+            //    var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Product has not created successfully.", false);
 
-            //    int _MaxCode = 0;
-            //    var res = Int32.TryParse(maxcode, out _MaxCode);
-
-            //    //model.productCode = (Convert.ToInt32(maxcode) + 1).ToString("0000");
-            //    model.productCode = (_MaxCode + 1).ToString("0000");
+            //    return new OkObjectResult(jwt);
             //}
-            //else
-            //{
-            //    model.productCode = Productdata.Where(x => x.productId == model.productId).FirstOrDefault().productCode;
-            //}
-
+            //var Productdata = await productService.getProduct();
+           
             int productId = await productService.SaveProduct(user.employeeId.ToString(), model);
-            int result = await productService.setProductWiseSpecification(productId, user.employeeId.ToString(), model.Specificationdetail);
+            int result = await productService.setProductWiseSpecification(productId, user.employeeId.ToString(), model);
             if (productId != 0)
             {
                 var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Product has created successfully.", true, productId);
@@ -238,53 +212,53 @@ namespace ONEERP.Areas.Inventory.Controllers
         }
 
 
-        [HttpPost("setProductWiseSpecification")]
-        public async Task<IActionResult> setProductWiseSpecification(int productId, [FromBody] List<ProductWiseSpecificationViewModel> model)
-        {
-            var uid = Request.Headers["auth_token"];
-            if (uid.Count() == 0)
-            {
-                bool status = false;
-                string actionresult = "Invalid Token.";
-                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
-                return new OkObjectResult(jwts);
-            }
+        //[HttpPost("setProductWiseSpecification")]
+        //public async Task<IActionResult> setProductWiseSpecification(int productId, [FromBody] List<ProductWiseSpecificationViewModel> model)
+        //{
+        //    var uid = Request.Headers["auth_token"];
+        //    if (uid.Count() == 0)
+        //    {
+        //        bool status = false;
+        //        string actionresult = "Invalid Token.";
+        //        var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+        //        return new OkObjectResult(jwts);
+        //    }
 
-            var stream = uid;
-            var handler = new JwtSecurityTokenHandler();
-            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
-            var jti = tokenS.Claims.First(claim => claim.Type == "Id").Value;
-            var user = await userInfoes.GetUserBasicInfoesbyId(jti);
-            if (user.token != uid && user != null)
-            {
-                bool status = false;
-                string actionresult = "Invalid Token.";
-                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
-                return new OkObjectResult(jwts);
+        //    var stream = uid;
+        //    var handler = new JwtSecurityTokenHandler();
+        //    var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
+        //    var jti = tokenS.Claims.First(claim => claim.Type == "Id").Value;
+        //    var user = await userInfoes.GetUserBasicInfoesbyId(jti);
+        //    if (user.token != uid && user != null)
+        //    {
+        //        bool status = false;
+        //        string actionresult = "Invalid Token.";
+        //        var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+        //        return new OkObjectResult(jwts);
 
-            }
+        //    }
 
-            if (productId == 0)
-            {
-                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Product Specification has not created successfully.", false);
+        //    if (productId == 0)
+        //    {
+        //        var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Product Specification has not created successfully.", false);
 
-                return new OkObjectResult(jwt);
-            }
+        //        return new OkObjectResult(jwt);
+        //    }
 
-            int result = await productService.setProductWiseSpecification(productId, user.employeeId.ToString(), model);
+        //    int result = await productService.setProductWiseSpecification(productId, user.employeeId.ToString(), model);
 
-            if (result != 0)
-            {
-                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Product Specification has created successfully.", true, productId);
-                return new OkObjectResult(jwt);
-            }
-            else
-            {
-                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Product Specification has not created successfully.", false);
-                return new OkObjectResult(jwt);
-            }
+        //    if (result != 0)
+        //    {
+        //        var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Product Specification has created successfully.", true, productId);
+        //        return new OkObjectResult(jwt);
+        //    }
+        //    else
+        //    {
+        //        var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Product Specification has not created successfully.", false);
+        //        return new OkObjectResult(jwt);
+        //    }
 
-        }
+        //}
 
 
         //[HttpGet("getProductImage")]
@@ -443,6 +417,45 @@ namespace ONEERP.Areas.Inventory.Controllers
             }
 
             var datajson = await productService.GetProductJsonById(productId);
+
+            var jwt = await Tokens.getData(datajson.data, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+            return new OkObjectResult(jwt);
+
+        }
+
+        [HttpGet("GetInvProductWiseSpecificationById")]
+        public async Task<IActionResult> GetInvProductWiseSpecificationById(int productWiseSpecificationId)
+        {
+            var uid = Request.Headers["auth_token"];
+            if (uid.Count() == 0)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+                return new OkObjectResult(jwts);
+
+            }
+            var stream = uid;
+            var handler = new JwtSecurityTokenHandler();
+
+
+            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
+            var jti = tokenS.Claims.First(claim => claim.Type == "Id").Value;
+            var user = await userInfoes.GetUserBasicInfoesbyId(jti);
+
+            if (user.token != uid && user != null)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+                return new OkObjectResult(jwts);
+
+            }
+
+            var datajson = await productService.GetInvProductWiseSpecificationById(productWiseSpecificationId);
 
             var jwt = await Tokens.getData(datajson.data, new JsonSerializerSettings { Formatting = Formatting.Indented });
 

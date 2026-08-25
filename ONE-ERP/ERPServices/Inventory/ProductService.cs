@@ -74,49 +74,163 @@ namespace ONEERP.ERPServices.Inventory
         }
 
 
-        public async Task<int> setProductWiseSpecification(int productId, string id, List<ProductWiseSpecificationViewModel> productWiseColor)
+        //public async Task<int> setProductWiseSpecification(int productId, string id, List<ProductWiseSpecificationViewModel> productWiseColor)
+        //{
+        //    try
+        //    {
+        //        var result = new SaveUpdateValueViewModel();
+        //        var NewSKU = "";
+        //        foreach (ProductWiseSpecificationViewModel model in productWiseColor)
+        //        {
+        //            if (model.skuNumber != NewSKU)
+        //            {
+        //                string[] res = model.imageFile.Split(',');
+        //                if (string.IsNullOrEmpty(model.imageUrl) && res.Length > 1)
+        //                {
+        //                    Byte[] bytes = Convert.FromBase64String(res[1]);
+
+        //                    string[] extention = res[0].Split("/");
+        //                    string servePath = ("./wwwroot/ProductImages");
+        //                    if (!System.IO.Directory.Exists(servePath)) System.IO.Directory.CreateDirectory(servePath);
+        //                    string fileName = ($"{DateTime.Now.Ticks}.{extention[1].Replace(";base64", "")}");
+        //                    string filePath = ($"{servePath}/{fileName}");
+        //                    File.WriteAllBytes(filePath, bytes);
+
+        //                    model.imageUrl = filePath;//fileName
+        //                }
+
+        //                model.productId = model.productId == 0 ? productId : model.productId;
+
+        //                result = await _context.saveUpdateValueViewModels.FromSql($"InvSetProductWiseSpecification {id},{model.productWiseSpecificationId},{model.productId},{model.skuName},{model.skuNumber},{model.imageUrl}").AsNoTracking().FirstOrDefaultAsync();
+        //                if (model.value != "")
+        //                {
+        //                    await _context.saveUpdateValueViewModels.FromSql($"InvSetProductWiseSpecificationDetails {id},{model.specificationDetailsId},{result.isSuccess},{model.productCategorySpecificationId},{model.value}").AsNoTracking().FirstOrDefaultAsync();
+        //                }
+
+        //            }
+        //            else
+        //            {
+        //                if (model.value != "")
+        //                {
+        //                    await _context.saveUpdateValueViewModels.FromSql($"InvSetProductWiseSpecificationDetails {id},{model.specificationDetailsId},{result.isSuccess},{model.productCategorySpecificationId},{model.value}").AsNoTracking().FirstOrDefaultAsync();
+        //                }
+        //            }
+        //            NewSKU = model.skuNumber;
+        //        }
+        //        return result.isSuccess;
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+        public async Task<int> setProductWiseSpecification(int productId, string id, ProductViewModel model)
         {
             try
             {
                 var result = new SaveUpdateValueViewModel();
-                var NewSKU = "";
-                foreach (ProductWiseSpecificationViewModel model in productWiseColor)
-                {
-                    if (model.skuNumber != NewSKU)
-                    {
-                        string[] res = model.imageFile.Split(',');
-                        if (string.IsNullOrEmpty(model.imageUrl) && res.Length > 1)
-                        {
-                            Byte[] bytes = Convert.FromBase64String(res[1]);
+                model.productId = model.productId == 0 ? productId : model.productId;
 
-                            string[] extention = res[0].Split("/");
-                            string servePath = ("./wwwroot/ProductImages");
-                            if (!System.IO.Directory.Exists(servePath)) System.IO.Directory.CreateDirectory(servePath);
-                            string fileName = ($"{DateTime.Now.Ticks}.{extention[1].Replace(";base64", "")}");
-                            string filePath = ($"{servePath}/{fileName}");
-                            File.WriteAllBytes(filePath, bytes);
+                //result = await _context.saveUpdateValueViewModels.FromSql($"InvSetProductWiseSpecification {id},{model.productWiseSpecificationId},{model.productId},{model.skuName},{model.skuNumber},{model.imageUrl}").AsNoTracking().FirstOrDefaultAsync();
+                result = await _context.saveUpdateValueViewModels
+                        .FromSql($@"EXEC InvSetProductWiseSpecification
+                            {id},
+                            {model.productWiseSpecificationId},
+                            {model.productId},
+                            {model.skuName},
+                            {model.skuNumber},
+                            {model.imageUrl},
 
-                            model.imageUrl = filePath;//fileName
-                        }
+                            {model.partslink},
+                            {model.location},
+                            {model.qtyonHand},
+                            {model.uom},
+                            {model.listPrice},
+                            {model.costPrice},
+                            {model.salesPrice},
+                            {model.fromYear},
+                            {model.toYear},
+                            {model.make},
+                            {model.model},
+                            {model.category},
+                            {model.subCategory},
+                            {model.oem},
+                            {model.interchange},
+                            {model.patent},
+                            {model.side},
+                            {model.position},
+                            {model.material},
+                            {model.colorOrFinish},
+                            {model.certification},
+                            {model.status},
+                            {model.barcodeOrQR},
+                            {model.productWeight},
+                            {model.productWeight_UOM},
+                            {model.productWidth},
+                            {model.productHeight},
+                            {model.productLength},
+                            {model.productSizeUOM},
+                            {model.productActive},
+                            {model.productTaxable},
+                            {model.isWebsiteActive},
+                            {model.isReturnable},
+                            {model.warrantyDays},
+                            {model.lastReceivedDate},
+                            {model.lastSoldDate},
+                            {model.primaryVendor},
+                            {model.vendorType},
+                            {model.submodelOrTrim},
+                            {model.bodyStyle},
+                            {model.engineSize},
+                            {model.warehouse},
+                            {model.zone},
+                            {model.aisle},
+                            {model.rack},
+                            {model.shelf},
+                            {model.bin},
+                            {model.pickLocationOrZone},
+                            {model.bulkLocationOrZone},
+                            {model.qtyReserved},
+                            {model.qtyDamagedHold},
+                            {model.qtyReceivingHold},
+                            {model.qtyReturnIntake},
+                            {model.qtyVendorReturn},
+                            {model.qtyScrap},
+                            {model.previousCountdays},
+                            {model.spotCountDate},
+                            {model.currentCountDays},
+                            {model.cycleCountFrequency},
+                            {model.abc_Class},
+                            {model.leadTimeDays},
+                            {model.safetyStock},
+                            {model.minStock},
+                            {model.maxStock},
+                            {model.suggestedReorderQty},
+                            {model.vendorName},
+                            {model.defaultVendor},
+                            {model.vendorPartNumber},
+                            {model.cost},
+                            {model.vendorUOM},
+                            {model.assetAccount},
+                            {model.cogsAccount},
+                            {model.adjustmentAccount},
+                            {model.scrapAccount},
+                            {model.varianceAccount},
+                            {model.incomeAccount},
+                            {model.upc},
+                            {model.partTypeID},
+                            {model.batchNumber},
+                            {model.notes},
 
-                        model.productId = model.productId == 0 ? productId : model.productId;
+                            {model.uomId},
+                            {model.makeId},
+                            {model.makeModelId},
+                            {model.productCategoryId},
+                            {model.productSubCategoryId}")
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync();
 
-                        result = await _context.saveUpdateValueViewModels.FromSql($"InvSetProductWiseSpecification {id},{model.productWiseSpecificationId},{model.productId},{model.skuName},{model.skuNumber},{model.imageUrl}").AsNoTracking().FirstOrDefaultAsync();
-                        if (model.value != "")
-                        {
-                            await _context.saveUpdateValueViewModels.FromSql($"InvSetProductWiseSpecificationDetails {id},{model.specificationDetailsId},{result.isSuccess},{model.productCategorySpecificationId},{model.value}").AsNoTracking().FirstOrDefaultAsync();
-                        }
-
-                    }
-                    else
-                    {
-                        if (model.value != "")
-                        {
-                            await _context.saveUpdateValueViewModels.FromSql($"InvSetProductWiseSpecificationDetails {id},{model.specificationDetailsId},{result.isSuccess},{model.productCategorySpecificationId},{model.value}").AsNoTracking().FirstOrDefaultAsync();
-                        }
-                    }
-                    NewSKU = model.skuNumber;
-                }
                 return result.isSuccess;
             }
             catch (System.Exception ex)
@@ -233,6 +347,11 @@ namespace ONEERP.ERPServices.Inventory
         public async Task<JsonViewModel> GetProductJsonById(int productId)
         {
             var result = await _context.jsonViewModels.FromSql($"InvSpGetProductJson {productId}").AsNoTracking().FirstOrDefaultAsync();
+            return result;
+        }
+        public async Task<JsonViewModel> GetInvProductWiseSpecificationById(int productWiseSpecificationId)
+        {
+            var result = await _context.jsonViewModels.FromSql($"InvSpGetInvProductWiseSpecificationJson {productWiseSpecificationId}").AsNoTracking().FirstOrDefaultAsync();
             return result;
         }
 

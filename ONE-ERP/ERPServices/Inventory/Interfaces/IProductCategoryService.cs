@@ -119,7 +119,14 @@ namespace ONEERP.ERPServices.Inventory.Interfaces
         Task<JsonViewModel> GetProductSupplier(int partyId);
         #endregion
 
+        #region FinalizeRequisitionProducts
         Task<JsonViewModel> GetAllFinalizeRequisitionProducts(int finalizeDetailId, int employeeId);
         Task<JsonViewModel> GetAllProductForBOM(int productId, int type, int employeeId);
+        #endregion
+
+        #region Make Model
+        Task<JsonViewModel> GetMakeById(int id);
+        Task<JsonViewModel> GetMakeModelByMakeId(int makeId, int makeModelId);
+        #endregion
     }
 }

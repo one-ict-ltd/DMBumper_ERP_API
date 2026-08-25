@@ -386,6 +386,8 @@ namespace ONEERP.ERPServices.Inventory
             return result;
         }
         #endregion
+
+        #region FinalizeRequisitionProducts
         public async Task<JsonViewModel> GetAllFinalizeRequisitionProducts(int finalizeDetailId, int employeeId)
         {
             try
@@ -404,6 +406,20 @@ namespace ONEERP.ERPServices.Inventory
             var result = await _context.jsonViewModels.FromSql($"InvSpGetAllPromotionalItemforBom {productId},{employeeId},{type}").AsNoTracking().FirstOrDefaultAsync();
             return result;
         }
+        #endregion
+
+        #region Make Model
+        public async Task<JsonViewModel> GetMakeById(int id)
+        {
+            var result = await _context.jsonViewModels.FromSql($"InvSpGetMakeByIdJson {id}").AsNoTracking().FirstOrDefaultAsync();
+            return result;
+        }
+        public async Task<JsonViewModel> GetMakeModelByMakeId(int makeId, int makeModelId)
+        {
+            var result = await _context.jsonViewModels.FromSql($"InvSpGetMakeModelByMakeIdJson {makeId},{makeModelId}").AsNoTracking().FirstOrDefaultAsync();
+            return result;
+        }
+        #endregion
 
     }
 }

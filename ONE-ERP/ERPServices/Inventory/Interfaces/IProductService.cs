@@ -17,7 +17,8 @@ namespace ONEERP.ERPServices.Inventory.Interfaces
 
         Task<int> SaveProductSupplier(int productId, string Id, List<ProductSupplierViewModel> productSupplier);
 
-        Task<int> setProductWiseSpecification(int productId,string Id,List<ProductWiseSpecificationViewModel> productWiseColor);
+        //Task<int> setProductWiseSpecification(int productId,string Id,List<ProductWiseSpecificationViewModel> productWiseColor);
+        Task<int> setProductWiseSpecification(int productId, string id, ProductViewModel model);
         Task<int> setMaterialWiseSpecification(int productId, string Id, List<ProductWiseSpecificationViewModel> productWiseColor);
         Task<int> SaveProductWiseSize(int productId, string Id, List<ProductWiseSizeViewModel> productWiseColor);
         Task<int> SaveProductPricing(int productId, string Id, List<ProductWisePricingViewModel> productPricing);
@@ -45,6 +46,8 @@ namespace ONEERP.ERPServices.Inventory.Interfaces
         Task<IEnumerable<ProductViewModel>> getProduct();
         Task<IEnumerable<ProductViewModel>> getProduct(int productId);
         Task<IEnumerable<ProductWiseSpecificationViewModel>> getProductSKUNumber();
+
+        Task<JsonViewModel> GetInvProductWiseSpecificationById(int productWiseSpecificationId);
 
         #endregion
 

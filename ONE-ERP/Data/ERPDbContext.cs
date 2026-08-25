@@ -236,6 +236,8 @@ namespace ONEERP.Data
         public DbSet<InvProductWiseColor> InvProductWiseColor { get; set; }
         public DbSet<InvProductWiseSize> InvProductWiseSize { get; set; }
         public DbSet<InvProductWiseSpecification> InvProductWiseSpecification { get; set; }
+        public DbSet<InvMake> InvMake { get; set; }
+        public DbSet<InvMakeModel> InvMakeModel { get; set; }
         public DbSet<InvProductWiseSpecificationDetails> InvProductWiseSpecificationDetails { get; set; }
         public DbSet<InvProductSpecInfo> InvProductSpecInfo { get; set; }
         public DbSet<InvProductWiseUOM> InvProductWiseUOM { get; set; }

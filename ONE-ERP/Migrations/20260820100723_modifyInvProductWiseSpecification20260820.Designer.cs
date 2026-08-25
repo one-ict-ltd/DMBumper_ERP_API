@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ONEERP.Data;
 
 namespace ONEERP.Migrations
 {
     [DbContext(typeof(ERPDbContext))]
-    partial class ERPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260820100723_modifyInvProductWiseSpecification20260820")]
+    partial class modifyInvProductWiseSpecification20260820
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -11647,10 +11649,6 @@ namespace ONEERP.Migrations
 
                     b.Property<string>("make");
 
-                    b.Property<int?>("makeId");
-
-                    b.Property<int?>("makeModelId");
-
                     b.Property<string>("material");
 
                     b.Property<decimal?>("maxStock");
@@ -11688,8 +11686,6 @@ namespace ONEERP.Migrations
                     b.Property<string>("productLength");
 
                     b.Property<string>("productSizeUOM");
-
-                    b.Property<int?>("productSubCategoryId");
 
                     b.Property<string>("productTaxable");
 
@@ -11729,9 +11725,11 @@ namespace ONEERP.Migrations
 
                     b.Property<string>("side");
 
-                    b.Property<string>("skuName");
+                    b.Property<string>("skuName")
+                        .HasMaxLength(250);
 
-                    b.Property<string>("skuNumber");
+                    b.Property<string>("skuNumber")
+                        .HasMaxLength(50);
 
                     b.Property<int?>("specWiseUomId");
 
@@ -11748,8 +11746,6 @@ namespace ONEERP.Migrations
                     b.Property<int?>("toYear");
 
                     b.Property<string>("uom");
-
-                    b.Property<int?>("uomId");
 
                     b.Property<string>("upc");
 
@@ -11779,10 +11775,6 @@ namespace ONEERP.Migrations
                     b.HasIndex("productCategoryId");
 
                     b.HasIndex("productId");
-
-                    b.HasIndex("productSubCategoryId");
-
-                    b.HasIndex("uomId");
 
                     b.ToTable("InvProductWiseSpecification");
                 });
@@ -24183,14 +24175,6 @@ namespace ONEERP.Migrations
                     b.HasOne("ONEERP.Data.Entity.Inventory.InvProduct", "product")
                         .WithMany()
                         .HasForeignKey("productId");
-
-                    b.HasOne("ONEERP.Data.Entity.Inventory.InvProductSubCategory", "productSubCategory")
-                        .WithMany()
-                        .HasForeignKey("productSubCategoryId");
-
-                    b.HasOne("ONEERP.Data.Entity.Inventory.InvProductUOM", "productUOM")
-                        .WithMany()
-                        .HasForeignKey("uomId");
                 });
 
             modelBuilder.Entity("ONEERP.Data.Entity.Inventory.InvProductWiseSpecificationDetails", b =>

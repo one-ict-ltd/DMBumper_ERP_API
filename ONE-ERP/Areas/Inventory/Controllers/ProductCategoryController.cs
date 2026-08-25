@@ -1990,5 +1990,88 @@ namespace ONEERP.Areas.MasterData.Controllers
             return new OkObjectResult(jwt);
         }
         #endregion
+
+        #region  Make Model
+
+        [HttpGet("getMakeById")]
+        public async Task<IActionResult> getMakeById(int makeId)
+        {
+            var uid = Request.Headers["auth_token"];
+            if (uid.Count() == 0)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+                return new OkObjectResult(jwts);
+
+            }
+            var stream = uid;
+            var handler = new JwtSecurityTokenHandler();
+
+
+            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
+            var jti = tokenS.Claims.First(claim => claim.Type == "Id").Value;
+            var user = await userInfoes.GetUserBasicInfoesbyId(jti);
+
+            if (user.token != uid && user != null)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+                return new OkObjectResult(jwts);
+
+            }
+
+            var datajson = await productCategoryService.GetMakeById(makeId);
+
+            var jwt = await Tokens.getData(datajson.data, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+            return new OkObjectResult(jwt);
+
+        }
+
+        [HttpGet("getMakeModelByMakeId")]
+        public async Task<IActionResult> getMakeModelByMakeId(int makeId, int makeModelId)
+        {
+            var uid = Request.Headers["auth_token"];
+            if (uid.Count() == 0)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+                return new OkObjectResult(jwts);
+
+            }
+            var stream = uid;
+            var handler = new JwtSecurityTokenHandler();
+
+
+            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
+            var jti = tokenS.Claims.First(claim => claim.Type == "Id").Value;
+            var user = await userInfoes.GetUserBasicInfoesbyId(jti);
+
+            if (user.token != uid && user != null)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+                return new OkObjectResult(jwts);
+
+            }
+
+            var datajson = await productCategoryService.GetMakeModelByMakeId(makeId, makeModelId);
+
+            var jwt = await Tokens.getData(datajson.data, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+            return new OkObjectResult(jwt);
+
+        }
+
+
+        #endregion
     }
 }
