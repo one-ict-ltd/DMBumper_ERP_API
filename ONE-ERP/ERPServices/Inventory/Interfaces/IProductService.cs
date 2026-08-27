@@ -47,7 +47,7 @@ namespace ONEERP.ERPServices.Inventory.Interfaces
         Task<IEnumerable<ProductViewModel>> getProduct(int productId);
         Task<IEnumerable<ProductWiseSpecificationViewModel>> getProductSKUNumber();
 
-        Task<JsonViewModel> GetInvProductWiseSpecificationById(int productWiseSpecificationId, int productCategoryId);
+        Task<JsonViewModel> GetInvProductWiseSpecificationById(int productWiseSpecificationId, int productCategoryId, string skuNumber, string partslink, string interchange);
 
         #endregion
 
