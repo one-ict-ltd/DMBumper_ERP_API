@@ -425,7 +425,7 @@ namespace ONEERP.Areas.Inventory.Controllers
         }
 
         [HttpGet("GetInvProductWiseSpecificationById")]
-        public async Task<IActionResult> GetInvProductWiseSpecificationById(int productWiseSpecificationId)
+        public async Task<IActionResult> GetInvProductWiseSpecificationById(int productWiseSpecificationId, int productCategoryId)
         {
             var uid = Request.Headers["auth_token"];
             if (uid.Count() == 0)
@@ -455,7 +455,7 @@ namespace ONEERP.Areas.Inventory.Controllers
 
             }
 
-            var datajson = await productService.GetInvProductWiseSpecificationById(productWiseSpecificationId);
+            var datajson = await productService.GetInvProductWiseSpecificationById(productWiseSpecificationId, productCategoryId);
 
             var jwt = await Tokens.getData(datajson.data, new JsonSerializerSettings { Formatting = Formatting.Indented });
 

@@ -349,9 +349,9 @@ namespace ONEERP.ERPServices.Inventory
             var result = await _context.jsonViewModels.FromSql($"InvSpGetProductJson {productId}").AsNoTracking().FirstOrDefaultAsync();
             return result;
         }
-        public async Task<JsonViewModel> GetInvProductWiseSpecificationById(int productWiseSpecificationId)
+        public async Task<JsonViewModel> GetInvProductWiseSpecificationById(int productWiseSpecificationId, int productCategoryId)
         {
-            var result = await _context.jsonViewModels.FromSql($"InvSpGetInvProductWiseSpecificationJson {productWiseSpecificationId}").AsNoTracking().FirstOrDefaultAsync();
+            var result = await _context.jsonViewModels.FromSql($"InvSpGetInvProductWiseSpecificationJson {productWiseSpecificationId},{productCategoryId}").AsNoTracking().FirstOrDefaultAsync();
             return result;
         }
 
