@@ -23,6 +23,7 @@ namespace ONEERP.ERPServices.Inventory.Interfaces
         Task<int> SaveProductCategorySpec(string id, List<ProductCategorySpecificationViewModel> productCategorySpecificationViewModels, int productCategoryId);
         Task<JsonViewModel> GetProductCategorySpecByCategoryId(int productCategoryId);
         Task<JsonViewModel> GetAllProductForRequisition(int productId,int employeeId);
+        Task<JsonViewModel> GetAllProductForRequisitionBySearchType(int employeeId, int productCategoryId, string skuNumber);
         Task<JsonViewModel> GetAllProductForStockInStockOut(int productId,int employeeId);
         Task<JsonViewModel> GetAllProductForRequisitionByProductTypeId(int productTypeId, int employeeId);
         Task<JsonViewModel> getAllProductForCreditNote(int productId,int employeeId);
@@ -125,7 +126,11 @@ namespace ONEERP.ERPServices.Inventory.Interfaces
         #endregion
 
         #region Make Model
+        Task<bool> SaveMake(string id, MakeViewModel model);
+        Task<bool> DeleteMakeById(string id, int makeId);
         Task<JsonViewModel> GetMakeById(int id);
+        Task<bool> SaveMakeModel(string id, MakeModelViewModel model);
+        Task<bool> DeleteMakeModelById(string id, int makeModelId);
         Task<JsonViewModel> GetMakeModelByMakeId(int makeId, int makeModelId);
         #endregion
     }

@@ -79,6 +79,11 @@ namespace ONEERP.ERPServices.Inventory
             var result = await _context.jsonViewModels.FromSql($"InvSpGetAllProductForRequisition {productId},{employeeId}").AsNoTracking().FirstOrDefaultAsync();
             return result;
         }
+        public async Task<JsonViewModel> GetAllProductForRequisitionBySearchType(int employeeId, int productCategoryId, string skuNumber)
+        {
+            var result = await _context.jsonViewModels.FromSql($"InvSpGetAllProductForRequisitionBySearchType {employeeId},{productCategoryId},{skuNumber}").AsNoTracking().FirstOrDefaultAsync();
+            return result;
+        }
 
         public async Task<JsonViewModel> GetAllProductForStockInStockOut(int productId, int employeeId)
         {
@@ -409,11 +414,34 @@ namespace ONEERP.ERPServices.Inventory
         #endregion
 
         #region Make Model
+
+        public async Task<bool> SaveMake(string id, MakeViewModel model)
+        {
+            var result = await _context.saveUpdateViewModels.FromSql($"InvSpSetMake {id},{model.makeId},{model.makeName},{model.isActive}").AsNoTracking().FirstOrDefaultAsync();
+            return result.isSuccess;
+        }
+        public async Task<bool> DeleteMakeById(string id, int makeId)
+        {
+            var result = await _context.saveUpdateViewModels.FromSql($"InvSpDeleteMake {id},{makeId}").AsNoTracking().FirstOrDefaultAsync();
+            return result.isSuccess;
+        }
         public async Task<JsonViewModel> GetMakeById(int id)
         {
             var result = await _context.jsonViewModels.FromSql($"InvSpGetMakeByIdJson {id}").AsNoTracking().FirstOrDefaultAsync();
             return result;
         }
+
+        public async Task<bool> SaveMakeModel(string id, MakeModelViewModel model)
+        {
+            var result = await _context.saveUpdateViewModels.FromSql($"InvSpSetMakeModel {id},{model.makeModelId},{model.makeModelName},{model.makeId},{model.make},{model.isActive}").AsNoTracking().FirstOrDefaultAsync();
+            return result.isSuccess;
+        }
+        public async Task<bool> DeleteMakeModelById(string id, int makeModelId)
+        {
+            var result = await _context.saveUpdateViewModels.FromSql($"InvSpDeleteMakeModel {id},{makeModelId}").AsNoTracking().FirstOrDefaultAsync();
+            return result.isSuccess;
+        }
+
         public async Task<JsonViewModel> GetMakeModelByMakeId(int makeId, int makeModelId)
         {
             var result = await _context.jsonViewModels.FromSql($"InvSpGetMakeModelByMakeIdJson {makeId},{makeModelId}").AsNoTracking().FirstOrDefaultAsync();

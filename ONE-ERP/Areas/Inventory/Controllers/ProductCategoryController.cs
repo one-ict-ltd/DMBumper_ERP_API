@@ -326,6 +326,36 @@ namespace ONEERP.Areas.MasterData.Controllers
             return new OkObjectResult(jwt);
         }
 
+        [HttpGet("GetAllProductForRequisitionBySearchType")]
+        public async Task<IActionResult> GetAllProductForRequisitionBySearchType(int productCategoryId, string skuNumber)
+        {
+            var uid = Request.Headers["auth_token"];
+            if (uid.Count() == 0)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwts);
+            }
+            var stream = uid;
+            var handler = new JwtSecurityTokenHandler();
+            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
+            var jti = tokenS.Claims.First(claim => claim.Type == "Id").Value;
+            var user = await userInfoes.GetUserBasicInfoesbyId(jti);
+
+            if (user.token != uid && user != null)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwts);
+            }
+
+            var datajson = await productCategoryService.GetAllProductForRequisitionBySearchType((int)user.employeeId, productCategoryId, skuNumber);
+            var jwt = await Tokens.getData(datajson.data, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            return new OkObjectResult(jwt);
+        }
+
         [HttpGet("getAllProductForStockInStockOut")]
         public async Task<IActionResult> getAllProductForStockInStockOut(int productId = 0)
         {
@@ -1993,6 +2023,92 @@ namespace ONEERP.Areas.MasterData.Controllers
 
         #region  Make Model
 
+        [HttpPost("setMake")]
+        public async Task<IActionResult> setMake([FromBody] MakeViewModel model)
+        {
+            var uid = Request.Headers["auth_token"];
+            if (uid.Count() == 0)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwts);
+            }
+
+            var stream = uid;
+            var handler = new JwtSecurityTokenHandler();
+            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
+            var jti = tokenS.Claims.First(claim => claim.Type == "Id").Value;
+            var user = await userInfoes.GetUserBasicInfoesbyId(jti);
+            if (user.token != uid && user != null)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwts);
+            }
+            if (model.makeName == null)
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Make has not created successfully.", false);
+                return new OkObjectResult(jwt);
+            }
+
+            bool result = await productCategoryService.SaveMake(user.employeeId.ToString(), model);
+            if (result == true)
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Make created successfully.", true);
+                return new OkObjectResult(jwt);
+            }
+            else
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Make has not created successfully.", false);
+                return new OkObjectResult(jwt);
+            }
+        }
+        [HttpPost("deleteMake")]
+        public async Task<IActionResult> deleteMake([FromBody] MakeViewModel model)
+        {
+            var uid = Request.Headers["auth_token"];
+            if (uid.Count() == 0)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwts);
+            }
+
+            var stream = uid;
+            var handler = new JwtSecurityTokenHandler();
+            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
+            var jti = tokenS.Claims.First(claim => claim.Type == "Id").Value;
+            var user = await userInfoes.GetUserBasicInfoesbyId(jti);
+            if (user.token != uid && user != null)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwts);
+            }
+
+            if (model.makeId <= 0)
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Make has not deleted.", false);
+                return new OkObjectResult(jwt);
+            }
+            bool result = await productCategoryService.DeleteMakeById(user.employeeId.ToString(), (int)model.makeId);
+
+            if (result == true)
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Make has deleted successfully.", true);
+                return new OkObjectResult(jwt);
+            }
+            else
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "The Make cannot be deleted because it is currently associated with an existing product.", false);
+                return new OkObjectResult(jwt);
+            }
+        }
+
         [HttpGet("getMakeById")]
         public async Task<IActionResult> getMakeById(int makeId)
         {
@@ -2030,6 +2146,92 @@ namespace ONEERP.Areas.MasterData.Controllers
 
             return new OkObjectResult(jwt);
 
+        }
+
+        [HttpPost("setMakeModel")]
+        public async Task<IActionResult> setMakeModel([FromBody] MakeModelViewModel model)
+        {
+            var uid = Request.Headers["auth_token"];
+            if (uid.Count() == 0)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwts);
+            }
+
+            var stream = uid;
+            var handler = new JwtSecurityTokenHandler();
+            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
+            var jti = tokenS.Claims.First(claim => claim.Type == "Id").Value;
+            var user = await userInfoes.GetUserBasicInfoesbyId(jti);
+            if (user.token != uid && user != null)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwts);
+            }
+            if (model.makeModelName == null)
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Model has not created successfully.", false);
+                return new OkObjectResult(jwt);
+            }
+
+            bool result = await productCategoryService.SaveMakeModel(user.employeeId.ToString(), model);
+            if (result == true)
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Model created successfully.", true);
+                return new OkObjectResult(jwt);
+            }
+            else
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Model has not created successfully.", false);
+                return new OkObjectResult(jwt);
+            }
+        }
+        [HttpPost("deleteMakeModel")]
+        public async Task<IActionResult> deleteMakeModel([FromBody] MakeModelViewModel model)
+        {
+            var uid = Request.Headers["auth_token"];
+            if (uid.Count() == 0)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwts);
+            }
+
+            var stream = uid;
+            var handler = new JwtSecurityTokenHandler();
+            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
+            var jti = tokenS.Claims.First(claim => claim.Type == "Id").Value;
+            var user = await userInfoes.GetUserBasicInfoesbyId(jti);
+            if (user.token != uid && user != null)
+            {
+                bool status = false;
+                string actionresult = "Invalid Token.";
+                var jwts = await Tokens.changePasswordJwt(status, actionresult, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwts);
+            }
+
+            if (model.makeId <= 0)
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Model has not deleted.", false);
+                return new OkObjectResult(jwt);
+            }
+            bool result = await productCategoryService.DeleteMakeModelById(user.employeeId.ToString(), (int)model.makeModelId);
+
+            if (result == true)
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Model has deleted successfully.", true);
+                return new OkObjectResult(jwt);
+            }
+            else
+            {
+                var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "The Model cannot be deleted because it is currently associated with an existing product.", false);
+                return new OkObjectResult(jwt);
+            }
         }
 
         [HttpGet("getMakeModelByMakeId")]
