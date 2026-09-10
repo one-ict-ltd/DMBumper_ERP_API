@@ -38,9 +38,9 @@ namespace ONEERP.ERPServices.Inventory
             return result.isSuccess;
         }
 
-        public async Task<JsonViewModel> GetProductPricingNByMasterId(int? pricingId, int? productWiseSpecificationId)
+        public async Task<JsonViewModel> GetProductPricingNByMasterId(int? pricingId, int? productWiseSpecificationId, int productCategoryId, string skuNumber, string partslink, string interchange, int yearId, int makeId, int makeModelId)
         {
-            var result = await _context.jsonViewModels.FromSql($"InvGetProductPricingNJSON {pricingId}, {productWiseSpecificationId}").AsNoTracking().FirstOrDefaultAsync();
+            var result = await _context.jsonViewModels.FromSql($"InvGetProductPricingNJSON {pricingId}, {productWiseSpecificationId},{productCategoryId},{skuNumber},{partslink},{interchange},{yearId},{makeId},{makeModelId}").AsNoTracking().FirstOrDefaultAsync();
             return result;
         }
         

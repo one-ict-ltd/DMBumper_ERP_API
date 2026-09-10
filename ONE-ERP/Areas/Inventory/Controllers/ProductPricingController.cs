@@ -92,11 +92,11 @@ namespace ONEERP.Areas.Inventory.Controllers
         }
 
         [HttpGet("GetProductPricingNByMasterId")]
-        public async Task<IActionResult> GetProductPricingNByMasterId(int? pricingId, int? productWiseSpecificationId)
+        public async Task<IActionResult> GetProductPricingNByMasterId(int? pricingId, int? productWiseSpecificationId, int productCategoryId, string skuNumber, string partslink, string interchange, int yearId, int makeId, int makeModelId)
         {
             if (Authentication().Result == false) return new OkObjectResult(this.jwts);
 
-            var datajson = await service.GetProductPricingNByMasterId(pricingId, productWiseSpecificationId);
+            var datajson = await service.GetProductPricingNByMasterId(pricingId, productWiseSpecificationId, productCategoryId, skuNumber, partslink, interchange, yearId, makeId, makeModelId);
             var jwt = await Tokens.getData(datajson.data, new JsonSerializerSettings { Formatting = Formatting.Indented });
             return new OkObjectResult(jwt);
         }

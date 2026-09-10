@@ -11,7 +11,7 @@ namespace ONEERP.ERPServices.Inventory.Interfaces
     {
         Task<JsonViewModel> GetProductPricingByMasterId(int? pricingId, int? productWiseSpecificationId);
         Task<int> SaveProductPricing(string userId, ProductPricingViewModel model);
-        Task<JsonViewModel> GetProductPricingNByMasterId(int? pricingId, int? productWiseSpecificationId);
+        Task<JsonViewModel> GetProductPricingNByMasterId(int? pricingId, int? productWiseSpecificationId, int productCategoryId, string skuNumber, string partslink, string interchange, int yearId, int makeId, int makeModelId);
         Task<JsonViewModel> GetEmployeeCashSalaryJSON(int? userId);
         Task<int> SaveCashSetUp(string userId, CashSetUpViewModel model);
     }
