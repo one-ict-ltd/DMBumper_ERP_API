@@ -548,134 +548,62 @@ namespace ONEERP.ERPServices.Sales
                 result.isSuccess = 1;
                 foreach (SalesInvoiceDetailsViewModel model in models)
                 {
-                    //var str = $"SalSpSetSalesInvoiceDetails {id},{model.salesInvDetailsId},{salesInvoiceId},{model.productId},{model.productWiseSpecificationId},{model.invoiceQty},{model.price},{model.vat},{model.ait},{model.discountAmount},{model.Total},{model.isActive},{model.isSelect},{model.barcodeId},{model.serialNo},{model.hasNationalBonus},{model.batchNo}"; 
-
-
-
-                    //if (result1.Count > 1)
-                    //{
-
-
-                    //}
-                    //else
-                    //{
-                    //    result = await _context.saveUpdateValueViewModels.FromSql($"SalSpSetSalesInvoiceDetails {id},{model.salesInvDetailsId},{salesInvoiceId},{model.productId},{model.productWiseSpecificationId},{model.invoiceQty},{model.price},{model.vat},{model.ait},{model.discountAmount},{model.Total},{model.isActive},{model.isSelect},{model.barcodeId},{model.serialNo},{model.hasNationalBonus},{model.batchNo}").AsNoTracking().FirstOrDefaultAsync();
-                    //}
-
                     int isFirstRow = 1;
-                    int? prevProdSpec = 0;
-
-                    #region commented on 05-Feb-2024
-
-                    /*
-                    if (companyId == 1)
-                    {
-                        result = await _context.saveUpdateValueViewModels.FromSql($"SalSpSetSalesInvoiceDetails {id},{model.salesInvDetailsId},{salesInvoiceId},{model.productId},{model.productWiseSpecificationId},{model.invoiceQty},{model.price},{model.vat},{model.ait},{model.discountAmount},{model.Total},{model.isActive},{model.isSelect},{model.barcodeId},{model.serialNo},{model.hasNationalBonus},{model.batchNo},{0},{model.invoiceQty}, {isFirstRow}").AsNoTracking().FirstOrDefaultAsync();
-                    }
-                    else
-                    {
-                        int isdone = 0;
-                        var result1 = await _context.salesBatchViewModels.FromSql($"SalSpGetProductBatch {storeId},{model.productWiseSpecificationId}").AsNoTracking().ToListAsync();
-                        decimal qty = (decimal)model.invoiceQty;
-                        decimal aqty = 0;
-                        decimal? ttotal = 0;
-                        foreach (SalesBatchsViewModel x in result1)
-                        {
-                            if (qty > 0)
-                            {
-                                if (qty < x.currentStock)
-                                {
-                                    aqty = qty;
-                                }
-                                else
-                                {
-                                    aqty = x.currentStock;
-                                }
-
-                                ttotal = (aqty * model.price) + (aqty * model.vat) + (aqty * model.ait) - (aqty * model.discountAmount);
-
-                                qty = qty - aqty;
-
-                                if (qty <= 0)
-                                {
-                                    isdone = 1;
-                                }
-
-                                if (prevProdSpec != model.productWiseSpecificationId)
-                                {
-                                    result = await _context.saveUpdateValueViewModels.FromSql($"SalSpSetSalesInvoiceDetails {id},{model.salesInvDetailsId},{salesInvoiceId},{model.productId},{model.productWiseSpecificationId},{aqty},{model.price},{model.vat},{model.ait},{model.discountAmount},{ttotal},{model.isActive},{model.isSelect},{model.barcodeId},{model.serialNo},{model.hasNationalBonus},{x.batchNo},{isdone},{model.invoiceQty},{isFirstRow}").AsNoTracking().FirstOrDefaultAsync();
-
-                                    if (result.isSuccess == 0)
-                                    {
-                                        prevProdSpec = model.productWiseSpecificationId;
-                                        //return 0;
-                                    }
-                                }
-                                isFirstRow++;
-                                // if()
-                            }
-                        }
-                    }
-                    */
-
-                    #endregion
-
+                    //int? prevProdSpec = 0;
                     int isdone = 0;
-                    //var result1 = await _context.salesBatchViewModels.FromSql($"SalSpGetProductBatch {storeId},{model.productWiseSpecificationId}").AsNoTracking().ToListAsync();
 
-                    // var BatchWiseStock = await _context.salesBatchViewModels.FromSql($"SalSpGetProductBatch {storeId},{model.productWiseSpecificationId},{model.salesInvoiceId},{model.invoiceQty},{model.hasNationalBonus}").AsNoTracking().ToListAsync();
-                    var BatchWiseStock = await _context.salesBatchViewModels.FromSql($"SalSpGetProductBatch {storeId},{model.productWiseSpecificationId},{salesInvoiceId},{model.invoiceQty},{model.hasNationalBonus}").AsNoTracking().ToListAsync();
+                    //var BatchWiseStock = await _context.salesBatchViewModels.FromSql($"SalSpGetProductBatch {storeId},{model.productWiseSpecificationId},{salesInvoiceId},{model.invoiceQty},{model.hasNationalBonus}").AsNoTracking().ToListAsync();
 
-                    decimal qty = (decimal)model.invoiceQty;
-                    decimal aqty = 0;
-                    decimal? ttotal = 0;
+                    //decimal qty = (decimal)model.invoiceQty;
+                    //decimal aqty = 0;
+                    //decimal? ttotal = 0;
 
-                    int? isProcess = 0;
+                    //int? isProcess = 0;
 
-                    if (BatchWiseStock != null && BatchWiseStock.Count > 0)
-                    {
-                        isProcess = BatchWiseStock[0].isProcess;
-                    }
+                    //if (BatchWiseStock != null && BatchWiseStock.Count > 0)
+                    //{
+                    //    isProcess = BatchWiseStock[0].isProcess;
+                    //}
 
-                    if ((isProcess ?? 0) == 1)
-                    {
-                        foreach (SalesBatchsViewModel x in BatchWiseStock)
-                        {
-                            if (qty > 0)
-                            {
-                                if (qty < x.currentStock)
-                                {
-                                    aqty = qty;
-                                }
-                                else
-                                {
-                                    aqty = x.currentStock;
-                                }
+                    //if ((isProcess ?? 0) == 1)
+                    //{
+                    //    foreach (SalesBatchsViewModel x in BatchWiseStock)
+                    //    {
+                    //        if (qty > 0)
+                    //        {
+                    //            if (qty < x.currentStock)
+                    //            {
+                    //                aqty = qty;
+                    //            }
+                    //            else
+                    //            {
+                    //                aqty = x.currentStock;
+                    //            }
 
-                                ttotal = (aqty * model.price) + (aqty * model.vat) + (aqty * model.ait) - (aqty * model.discountAmount);
+                    //            ttotal = (aqty * model.price) + (aqty * model.vat) + (aqty * model.ait) - (aqty * model.discountAmount);
 
-                                qty = qty - aqty;
+                    //            qty = qty - aqty;
 
-                                if (qty <= 0)
-                                {
-                                    isdone = 1;
-                                }
+                    //            if (qty <= 0)
+                    //            {
+                    //                isdone = 1;
+                    //            }
 
-                                if (prevProdSpec != model.productWiseSpecificationId)
-                                {
-                                    result = await _context.saveUpdateValueViewModels.FromSql($"SalSpSetSalesInvoiceDetails {id},{model.salesInvDetailsId},{salesInvoiceId},{model.productId},{model.productWiseSpecificationId},{aqty},{model.price},{model.vat},{model.ait},{model.discountAmount},{ttotal},{model.isActive},{model.isSelect},{model.barcodeId},{model.serialNo},{model.hasNationalBonus},{x.batchNo},{isdone},{model.invoiceQty},{isFirstRow}").AsNoTracking().FirstOrDefaultAsync();
+                    //            if (prevProdSpec != model.productWiseSpecificationId)
+                    //            {
+                    result = await _context.saveUpdateValueViewModels.FromSql($"SalSpSetSalesInvoiceDetails {id},{model.salesInvDetailsId},{salesInvoiceId},{model.productId},{model.productWiseSpecificationId},{model.invoiceQty},{model.price},{model.vat},{model.ait},{model.discountAmount},{model.Total},{model.isActive},{model.isSelect},{model.barcodeId},{model.serialNo},{model.hasNationalBonus},{model.batchNo},{isdone},{model.invoiceQty},{isFirstRow}").AsNoTracking().FirstOrDefaultAsync();
 
-                                    if (result.isSuccess == 0)
-                                    {
-                                        prevProdSpec = model.productWiseSpecificationId;
-                                        //return 0;
-                                    }
-                                }
-                                isFirstRow++;
-                                // if()
-                            }
-                        }
-                    }
+                    //                if (result.isSuccess == 0)
+                    //                {
+                    //                    prevProdSpec = model.productWiseSpecificationId;
+                                        
+                    //                }
+                    //            }
+                    //            isFirstRow++;
+                                
+                    //        }
+                    //    }
+                    //}
                 }
             }
             catch (Exception ex)

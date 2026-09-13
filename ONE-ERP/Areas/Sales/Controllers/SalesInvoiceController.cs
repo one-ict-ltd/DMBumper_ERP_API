@@ -392,30 +392,19 @@ namespace ONEERP.Areas.Sales.Controllers
                 return new OkObjectResult(jwt);
             }
 
-            /*
-            foreach (var item in model.lstDetailsViewModel)
-            {
-                if (string.IsNullOrWhiteSpace(item.batchNo))
-                {
-                    var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, "Batch Number Not Found. Empty batch number does not allowed!", false);
-                    return new OkObjectResult(jwt);
-                }
-            }
-            */
+            //foreach (var item in model.lstDetailsViewModel)
+            //{
+            //    if (item.isSelect == true)
+            //    {
+            //        var res = await service.GetValidateProductStockForInvoice(employeeId, model.storeId, item.productWiseSpecificationId, item.batchNo, item.invoiceQty, model.partyId, model.salesInvoiceDate, item.hasNationalBonus);
 
-            foreach (var item in model.lstDetailsViewModel)
-            {
-                if (item.isSelect == true)
-                {
-                    var res = await service.GetValidateProductStockForInvoice(employeeId, model.storeId, item.productWiseSpecificationId, item.batchNo, item.invoiceQty, model.partyId, model.salesInvoiceDate, item.hasNationalBonus);
-
-                    if (!string.IsNullOrWhiteSpace(res))
-                    {
-                        var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, res, false);
-                        return new OkObjectResult(jwt);
-                    }
-                }
-            }
+            //        if (!string.IsNullOrWhiteSpace(res))
+            //        {
+            //            var jwt = await Tokens.setJwt(new JsonSerializerSettings { Formatting = Formatting.Indented }, res, false);
+            //            return new OkObjectResult(jwt);
+            //        }
+            //    }
+            //}
 
             int result = 0;
             int salesInvoiceId = await service.SaveSalesInvoice(employeeId, model);
@@ -431,18 +420,18 @@ namespace ONEERP.Areas.Sales.Controllers
 
             await service.SaveSalesInvoiceTC(employeeId, model.tcLstDetailsViewModel, salesInvoiceId);
 
-            if (model.transactionTypeId == 1) //Cash
-            {
-                int voucherMasterId = await service.CreateAutoJournalForSalesInvoice(employeeId, model);
-            }
-            else if (model.transactionTypeId == 2) //Credit
-            {
-                int voucherMasterId = await service.CreateAutoJournalForSalesInvoiceOnCredit(employeeId, model);
-            }
-            else if (model.transactionTypeId == 3) //Advance
-            {
-                int voucherMasterId = await service.CreateAutoJournalForSalesInvoiceOnAdvance(employeeId, model);
-            }
+            //if (model.transactionTypeId == 1) //Cash
+            //{
+            //    int voucherMasterId = await service.CreateAutoJournalForSalesInvoice(employeeId, model);
+            //}
+            //else if (model.transactionTypeId == 2) //Credit
+            //{
+            //    int voucherMasterId = await service.CreateAutoJournalForSalesInvoiceOnCredit(employeeId, model);
+            //}
+            //else if (model.transactionTypeId == 3) //Advance
+            //{
+            //    int voucherMasterId = await service.CreateAutoJournalForSalesInvoiceOnAdvance(employeeId, model);
+            //}
 
             if (result != 0)
             {
